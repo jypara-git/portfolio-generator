@@ -128,18 +128,18 @@ const promptProject = portfolioData => {
       });
 };
 
-promptUser()
-    .then(promptProject)
-    .then(portfolioData => {
+// allows to use node module file systems
+const fs = require('fs');
+// allows to import our own module with require function
+const generatePage = require('./src/page-template.js')
+
+promptUser()  // call this function
+    .then(promptProject)   // after promptUser completes call promptProject
+    .then((portfolioData) => {  //after promptProject completes what is returned is stored in portfolioData = parameter for the function
         console.log(portfolioData);
+        const pageHTML = generatePage(portfolioData);  //writes the portfolioData into the HTML
+        fs.writeFile('./index.html', pageHTML, err => {  // where? ./index.html what? pageHTML=stores html string as a variable
+            if (err) throw err;
+        });
+        console.log('Portfolio complete! Check out index.html to see the output!');
     });
-// const fs = require('fs');
-// const generatePage = require('./src/page-template.js')
-
-// const pageHTML = generatePage(name, github);
-
-// fs.writeFile('./index.html', pageHTML, err => {
-//     if (err) throw err;
-
-//     console.log('Portfolio complete! Check out index.html to see the output!');
-// });
