@@ -136,10 +136,17 @@ const generatePage = require('./src/page-template.js')
 promptUser()  // call this function
     .then(promptProject)   // after promptUser completes call promptProject
     .then((portfolioData) => {  //after promptProject completes what is returned is stored in portfolioData = parameter for the function
-        console.log(portfolioData);
-        const pageHTML = generatePage(portfolioData);  //writes the portfolioData into the HTML
-        fs.writeFile('./index.html', pageHTML, err => {  // where? ./index.html what? pageHTML=stores html string as a variable
-            if (err) throw err;
-        });
-        console.log('Portfolio complete! Check out index.html to see the output!');
-    });
+        return generatePage(portfolioData);
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML);
+    })
+    .then(writeFileResponse => {
+        return copyFile();
+    })
+    .then(copyFileResponse => {
+        console.log(copyFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
+    })
