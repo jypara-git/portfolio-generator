@@ -128,10 +128,8 @@ const promptProject = portfolioData => {
       });
 };
 
-// allows to use node module file systems
-const fs = require('fs');
 // allows to import our own module with require function
-const generatePage = require('./src/page-template.js')
+const { writeFile, copyFile}  = require('./utils/generate-site.js')
 
 promptUser()  // call this function
     .then(promptProject)   // after promptUser completes call promptProject
